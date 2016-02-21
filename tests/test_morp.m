@@ -348,7 +348,7 @@ function check_full(method)
             );
     end
     if isoctave()
-        assertFalse(~isempty(pkg('list', OCTAVGE_PKG)));
+        assertFalse(isempty(pkg('list', OCTAVGE_PKG)));
     end
 end
 
