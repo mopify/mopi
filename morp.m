@@ -44,7 +44,7 @@ function morp(input, packages_folder, fixpath, download_folder)
                 download_folder);
         end
 
-    elseif exist(input, 'file')
+    elseif ischar(input) && exist(input, 'file')
         % Deal with each entry in the file
         fid = fopen(input);
         while ~feof(fid)
