@@ -16,7 +16,7 @@ end
 function setup()
     fid = fopen('requirements_testing.txt', 'w');
     fprintf(fid, '# Packages for testing installation\n');
-    %fprintf(fid, 'forge://control\n');
+    fprintf(fid, 'forge://control\n');
     fprintf(fid, 'fex://55540-dummy-package\n');
     fprintf(fid, 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP\n');
     fclose(fid);
