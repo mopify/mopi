@@ -48,67 +48,6 @@ function tf = isoctave()
 end
 
 % ---------------------------------------------------------------------
-function check_full(method)
-    PKG_DIR = 'external_test';
-    CACHE_DIR = '.cache';
-    FNAME = 'requirements_testing.txt';
-    OCTAVGE_PKG = 'control';
-    PKG_LIST = {
-        ['forge://' OCTAVGE_PKG];
-        'fex://55540-dummy-package';
-        'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP';
-    };
-    EXPECTED_FILES = {
-        fullfile(PKG_DIR, '55540', 'dummy.txt');
-        fullfile(PKG_DIR, 'peace_essay', 'civility.htm');
-    };
-    % Delete old fixtures
-    if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
-    if exist(CACHE_DIR, 'dir'); rmdir(CACHE_DIR, 's'); end
-    if isoctave() && is_continuous_integration() ...
-            && ~isempty(pkg('list', OCTAVGE_PKG))
-        fprintf('Removing existing copy of %s\n', OCTAVGE_PKG);
-        pkg('uninstall', OCTAVGE_PKG);
-    end
-    switch method
-        case 'shell'
-            % Run the shell script
-            status = system( ...
-                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
-            assertTrue(status==0);
-        case 'matlab'
-            % Run the matlab script with a file input
-            morp(FNAME, PKG_DIR, false, CACHE_DIR);
-        case 'matlab-cell'
-            % Run the matlab script with a cell input
-            morp(PKG_LIST, PKG_DIR, false, CACHE_DIR);
-        otherwise
-            error('Bad argument');
-    end
-    % Assert files exist
-    assertTrue( exist(EXPECTED_FILES{1}, 'file') ~= 0 );
-    assertTrue( exist(EXPECTED_FILES{2}, 'file') ~= 0 );
-    for iFile=3:numel(EXPECTED_FILES)
-        assertTrue( exist(EXPECTED_FILES{iFile}, 'file') ~= 0 );
-    end
-    if isoctave()
-        assertFalse(~isempty(pkg('list', OCTAVGE_PKG)));
-    end
-end
-
-function test_shellscript_full()  %#ok<*DEFNU>
-    check_full('shell');
-end
-
-function test_mscript_file()
-    check_full('matlab');
-end
-
-function test_mscript_cell()
-    check_full('matlab-cell');
-end
-
-% ---------------------------------------------------------------------
 % Test Forge package can be installed, by shell or matlab script
 function check_forge(method, includeProtocol)
     % Declare constants
@@ -290,4 +229,65 @@ end
 
 function test_mscript_fex_addpath()
     check_fex('matlab-addpath', true);
+end
+
+% ---------------------------------------------------------------------
+function check_full(method)
+    PKG_DIR = 'external_test';
+    CACHE_DIR = '.cache';
+    FNAME = 'requirements_testing.txt';
+    OCTAVGE_PKG = 'control';
+    PKG_LIST = {
+        ['forge://' OCTAVGE_PKG];
+        'fex://55540-dummy-package';
+        'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP';
+    };
+    EXPECTED_FILES = {
+        fullfile(PKG_DIR, '55540', 'dummy.txt');
+        fullfile(PKG_DIR, 'peace_essay', 'civility.htm');
+    };
+    % Delete old fixtures
+    if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
+    if exist(CACHE_DIR, 'dir'); rmdir(CACHE_DIR, 's'); end
+    if isoctave() && is_continuous_integration() ...
+            && ~isempty(pkg('list', OCTAVGE_PKG))
+        fprintf('Removing existing copy of %s\n', OCTAVGE_PKG);
+        pkg('uninstall', OCTAVGE_PKG);
+    end
+    switch method
+        case 'shell'
+            % Run the shell script
+            status = system( ...
+                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
+            assertTrue(status==0);
+        case 'matlab'
+            % Run the matlab script with a file input
+            morp(FNAME, PKG_DIR, false, CACHE_DIR);
+        case 'matlab-cell'
+            % Run the matlab script with a cell input
+            morp(PKG_LIST, PKG_DIR, false, CACHE_DIR);
+        otherwise
+            error('Bad argument');
+    end
+    % Assert files exist
+    assertTrue( exist(EXPECTED_FILES{1}, 'file') ~= 0 );
+    assertTrue( exist(EXPECTED_FILES{2}, 'file') ~= 0 );
+    for iFile=3:numel(EXPECTED_FILES)
+        assertTrue( exist(EXPECTED_FILES{iFile}, 'file') ~= 0 );
+    end
+    if isoctave()
+        assertFalse(~isempty(pkg('list', OCTAVGE_PKG)));
+    end
+end
+
+function test_shellscript_full()  %#ok<*DEFNU>
+    check_full('shell');
+end
+
+function test_mscript_file()
+    check_full('matlab');
+end
+
+function test_mscript_cell()
+    check_full('matlab-cell');
 end
