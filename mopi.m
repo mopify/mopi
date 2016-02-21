@@ -1,5 +1,5 @@
-%morp  Install generic package requirements
-%   morp(FNAME) installs the Octave Forge, MATLAB FEX and URL requirements
+%mopi  Install generic package requirements
+%   mopi(FNAME) installs the Octave Forge, MATLAB FEX and URL requirements
 %   specified in file FNAME, with each line of the file corresponding to a
 %   different package. Package types are determined based on the protocol
 %   scheme given by the line of the file as follows:
@@ -9,28 +9,28 @@
 %           MATLAB FileExchange package
 %     * Line begins <other>'://'
 %           Uniform Resource Location (URL)
-%   If no protocol scheme is specified, MORP will attempt to infer the
+%   If no protocol scheme is specified, MOPI will attempt to infer the
 %   package type. For more details, consult the documentation for the
-%   subfunction INSTALL_SINGLE, and the README for MORP.
+%   subfunction INSTALL_SINGLE, and the README for MOPI.
 %   A dialogue box will ask for the location in which to install the
 %   packages.
 %
-%   morp() without any inputs will try to install from a file
+%   mopi() without any inputs will try to install from a file
 %   'requirements.txt' in the present directory.
 %
-%   morp(PACKAGES) with PACKAGES as a cell array of strings will attempt to
+%   mopi(PACKAGES) with PACKAGES as a cell array of strings will attempt to
 %   install the package specified in each string within PACKAGES.
 %
-%   morp(PACKAGE) with a single string input not corresponding to an
+%   mopi(PACKAGE) with a single string input not corresponding to an
 %   existing file on the path will attempt to the package given by PACKAGE.
 %
-%   morp(FEXID) with FEXID a numeric integer input (not necessarily of type
+%   mopi(FEXID) with FEXID a numeric integer input (not necessarily of type
 %   int) will install the FileExchange package with id FEXID.
 %
-%   morp(..., PACKAGES_FOLDER) will skip the dialogue box and install the
+%   mopi(..., PACKAGES_FOLDER) will skip the dialogue box and install the
 %   packages into the directory PACKAGES_FOLDER.
 %
-%   morp(..., PACKAGES_FOLDER, FIXPATH) allows the user to select whether
+%   mopi(..., PACKAGES_FOLDER, FIXPATH) allows the user to select whether
 %   the packages should be added to the MATLAB/Octave path after
 %   installation. By default, this is true. If FIXPATH evaluates to false,
 %   the path will be left unchanged. PACKAGES_FOLDER can be empty ([] or
@@ -38,17 +38,17 @@
 %   path is amended, but it is never saved. If you wish to save the new
 %   path after installing the packages, you should call SAVEPATH.
 %
-%   morp(..., PACKAGES_FOLDER, FIXPATH, DOWNLOAD_FOLDER) allows the user to
+%   mopi(..., PACKAGES_FOLDER, FIXPATH, DOWNLOAD_FOLDER) allows the user to
 %   specify where the package resources should be downloaded to before they
 %   are decompressed. By default, this is PACKAGES_FOLDER/.cache.
 %
 %   See also INSTALL_SINGLE.
-function morp(input, packages_folder, fixpath, download_folder)
+function mopi(input, packages_folder, fixpath, download_folder)
     % Input handling --------------------------------------------------
     if nargin<1 || isempty(input)
         input = fullfile(pwd, 'requirements.txt');
         if ~exist(input, 'file')
-            error('MORP:BadInput', ...
+            error('MOPI:BadInput', ...
                 ['No package list input was given, and a' ...
                 ' `requirements.txt` file could not found in the present' ...
                 ' directory.' ...
@@ -102,12 +102,12 @@ function morp(input, packages_folder, fixpath, download_folder)
     elseif isnumeric(input)
         % Looks like it is a FEX id as an integer
         if abs(input - round(input)) > eps
-            error('MORP:BadInput', 'FEX id input must be an integer');
+            error('MOPI:BadInput', 'FEX id input must be an integer');
         end
         install_single(num2str(input), packages_folder, download_folder);
 
     else
-        error('MORP:BadInput', ...
+        error('MOPI:BadInput', ...
             'Can''t install from class type %s', class(input));
 
     end
@@ -198,7 +198,7 @@ function status = extract(fname, output_folder)
                 status = 1;
             else
                 % Throw an error if status is not being captured
-                error('MORP:Extract:NotExtractable', ...
+                error('MOPI:Extract:NotExtractable', ...
                     'Can''t extract file with extension %s\n', ext);
             end
     end
@@ -330,7 +330,7 @@ function install_fex(package, packages_folder, download_folder)
     [dl_destination, status] = urlwrite(URL, dl_destination);
     % Throw a warning and exit if we couldn't install it
     if status==0
-        warning('MORP:NoDownload', ...
+        warning('MOPI:NoDownload', ...
             'Could not download package %s from\n\t%s', package, URL);
         return;
     end
@@ -349,7 +349,7 @@ function install_fex(package, packages_folder, download_folder)
         if ~strcmp(ME.identifier, 'MATLAB:unzip:invalidZipFile')
             rethrow(ME);
         end
-        warning('MORP:UnzippableFex', ...
+        warning('MOPI:UnzippableFex', ...
             'Could not unzip package %s from\n\t%s', package, URL);
         % If the FEX package is not a zip file, it is presumably a single
         % m-file. Just move the file to the package directory.
@@ -418,7 +418,7 @@ function install_url(URL, packages_folder, download_folder)
     [dl_destination, status] = urlwrite(URL, dl_destination);
     % Throw a warning and exit if we couldn't install it
     if status==0
-        warning('MORP:NoDownload', ...
+        warning('MOPI:NoDownload', ...
             'Could not download package %s from\n\t%s', package, URL);
         return;
     end

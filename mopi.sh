@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# install_packages.sh
+# mopi.sh
 # Install MATLAB and Octave packages from Octave Forge, MATLAB
 # FileExchange or explicit URLs.
 #

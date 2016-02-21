@@ -1,6 +1,6 @@
-% Tests for morp.m and morp.sh, implemented
+% Tests for mopi.m and mopi.sh, implemented
 % with the MOxUnit framework.
-function test_suite = test_morp()
+function test_suite = test_mopi()
     % Top level function should call initTestSuite and return the
     % variable test_suite (which initTestSuite will put into the
     % workspace for us).
@@ -110,11 +110,11 @@ function check_forge(method, includeProtocol)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
-            morp(FNAME, PKG_DIR, false);
+            mopi(FNAME, PKG_DIR, false);
         otherwise
             error('Bad argument');
     end
@@ -163,11 +163,11 @@ function check_url(method)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
-            morp(FNAME, PKG_DIR, false, CACHE_DIR);
+            mopi(FNAME, PKG_DIR, false, CACHE_DIR);
         otherwise
             error('Bad argument');
     end
@@ -217,19 +217,19 @@ function check_fex(method, includeProtocol)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
-            morp(FNAME, PKG_DIR, false, '.cache');
+            mopi(FNAME, PKG_DIR, false, '.cache');
             rmdir('.cache', 's');
         case 'matlab-int-id'
             % Run the matlab script on an integer input
-            morp(55540, PKG_DIR, false, '.cache');
+            mopi(55540, PKG_DIR, false, '.cache');
             rmdir('.cache', 's');
         case 'matlab-addpath'
             % Run the matlab script, and add path
-            morp(FNAME, PKG_DIR, true, '.cache');
+            mopi(FNAME, PKG_DIR, true, '.cache');
             rmdir('.cache', 's');
             assertFalse(isempty(which(EXPECTED_FILE)));
             % Remove path
@@ -314,14 +314,14 @@ function check_full(method)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script with a file input
-            morp(FNAME, PKG_DIR, false, CACHE_DIR);
+            mopi(FNAME, PKG_DIR, false, CACHE_DIR);
         case 'matlab-cell'
             % Run the matlab script with a cell input
-            morp(PKG_LIST, PKG_DIR, false, CACHE_DIR);
+            mopi(PKG_LIST, PKG_DIR, false, CACHE_DIR);
         otherwise
             error('Bad argument');
     end

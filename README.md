@@ -1,11 +1,11 @@
-MORP: MATLAB/Octave Require Package
-===================================
+MOPI: MATLAB/Octave Package Installer
+=====================================
 
-MORP provides a useful way to install dependencies for MATLAB and
+MOPI provides a useful way to install dependencies for MATLAB and
 Octave.
 
 There are two methods available to install dependency packages, one is the
-shell script `morp.sh`, and the other is a MATLAB function `morp.m`.
+shell script `mopi.sh`, and the other is a MATLAB function `mopi.m`.
 
 These lightweight utilities can be included in any MATLAB/Octave project which
 has non-trivial dependencies either by using a [submodule] of
@@ -20,13 +20,13 @@ On *nix, one can download requirements specified in a file named
 `requirements.txt` with the bash script:
 
 ```bash
-morp.sh requirements.txt
+mopi.sh requirements.txt
 ```
 
 On all systems, at the MATLAB or Octave command prompt one can do:
 
 ```matlab
-morp('requirements.txt')
+mopi('requirements.txt')
 ```
 
 By default, the shell script will download packages into a folder called
@@ -37,13 +37,13 @@ To specify a download location at the terminal, one can need only provide it
 as a second input with
 
 ```bash
-morp.sh requirements.txt DOWLOAD_FOLDER
+mopi.sh requirements.txt DOWLOAD_FOLDER
 ```
 
 or equivalently
 
 ```matlab
-morp('requirements.txt', DOWLOAD_FOLDER)
+mopi('requirements.txt', DOWLOAD_FOLDER)
 ```
 
 Each non-Forge package will be downloaded into a folder within DOWLOAD_FOLDER
@@ -53,7 +53,7 @@ The `.m` function for MATLAB and Octave can alternatively be given the name of
 a single package, or cell array of packages instead of a file listing packages.
 
 ```matlab
-morp(PACKAGE_NAME)
+mopi(PACKAGE_NAME)
 ```
 
 The `.m` function can optionally add the downloaded packages to the path
@@ -192,7 +192,7 @@ the following method can be used:
 
 ```matlab
 if ~exist('dummy.txt', 'file')
-    morp('fex://55540');
+    mopi('fex://55540');
 end
 ```
 
@@ -201,7 +201,7 @@ Differences between .sh and .m implementations
 ----------------------------------------------
 
 There are a small number of differences between the shell and native matlab
-implementations of MORP.
+implementations of MOPI.
   - The shell script can infer archives from their MIME type;
     the matlab function can only use file extensions.
   - The shell script can unpack a wider variety of archive file types (provied
@@ -223,11 +223,11 @@ implementations of MORP.
 Notes
 -----
 
-MORP was inspired by [requireFEXpackage] and [pip].
+MOPI was inspired by [requireFEXpackage] and [pip].
 
 
-  [this repository]:    https://github.com/scottclowe/morp
-  [LICENSE]:            https://github.com/scottclowe/morp/blob/master/LICENSE
+  [this repository]:    https://github.com/scottclowe/mopi
+  [LICENSE]:            https://github.com/scottclowe/mopi/blob/master/LICENSE
   [forge]:              http://octave.sourceforge.net/
   [fex]:                https://www.mathworks.com/matlabcentral/fileexchange
   [submodule]:          https://git-scm.com/book/en/v2/Git-Tools-Submodules
