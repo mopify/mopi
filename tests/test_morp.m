@@ -310,9 +310,11 @@ function check_full(method)
         'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP';
     };
     EXPECTED_FILES = {
-        fullfile(PKG_DIR, '55540', 'dummy.txt');
-        fullfile(PKG_DIR, 'peace_essay', 'civility.htm');
+        fullfile(PKG_DIR, 'peace_essay'), 'civility.htm';
     };
+    if strcmp(method, 'matlab-cell')
+        EXPECTED_FILES(end+1, :) = {fullfile(PKG_DIR, '55540'), 'dummy.txt'};
+    end
     % Delete old fixtures
     if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
     if exist(CACHE_DIR, 'dir'); rmdir(CACHE_DIR, 's'); end
@@ -337,10 +339,13 @@ function check_full(method)
             error('Bad argument');
     end
     % Assert files exist
-    assertTrue( exist(EXPECTED_FILES{1}, 'file') ~= 0 );
-    assertTrue( exist(EXPECTED_FILES{2}, 'file') ~= 0 );
-    for iFile=3:numel(EXPECTED_FILES)
-        assertTrue( exist(EXPECTED_FILES{iFile}, 'file') ~= 0 );
+    for iFile=1:size(EXPECTED_FILES, 1)
+        assertTrue( ...
+            find_exist(EXPECTED_FILES{iFile, 2}, EXPECTED_FILES{iFile, 1}) ...
+                ~= 0, ...
+            sprintf('File %s could not be found within directory %s', ...
+                EXPECTED_FILES{iFile, 2:1}) ...
+            );
     end
     if isoctave()
         assertFalse(~isempty(pkg('list', OCTAVGE_PKG)));
