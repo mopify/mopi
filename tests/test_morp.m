@@ -139,6 +139,9 @@ function check_url(method)
             error('Bad argument');
     end
     % Make sure packages were installed
+    ls -l
+    ls -l external_test
+    ls -l external_test/peace_essay
     assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
     % Delete testing file
     delete(FNAME);
@@ -200,6 +203,9 @@ function check_fex(method, includeProtocol)
             error('Bad argument');
     end
     % Make sure packages were installed
+    ls -l
+    ls -l external_test
+    ls -l external_test/55540
     assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
     % Delete testing file
     delete(FNAME);
