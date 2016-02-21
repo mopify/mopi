@@ -77,9 +77,8 @@ before_install:
 install:
   # Before running the tests, we will have to add our package and our
   # external dependencies to the octave path
-  - PACKAGE_FOLDER="package_name";
-    ADDPATH_COMMAND="addpath(genpath(fullfile(pwd, '$PACKAGE_FOLDER')));";
-    ADDPATH_COMMAND+=" addpath(genpath(fullfile(pwd, 'external')));";
+  - PACKAGE_FOLDER="";
+    ADDPATH_COMMAND="addpath(genpath(fullfile(pwd)));";
     echo "ADDPATH_COMMAND| $ADDPATH_COMMAND";
 
 ###############################################################################
