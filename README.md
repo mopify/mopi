@@ -5,7 +5,7 @@ MORP provides a useful way to install dependencies for MATLAB and
 Octave.
 
 There are two methods available to install dependency packages, one is the
-shell script `install_packages.sh`, and the other is a MATLAB function
+shell script `morp.sh`, and the other is a MATLAB function
 `install_packages.m`.
 
 These lightweight utilities can be included in any MATLAB/Octave project which
@@ -21,7 +21,7 @@ On *nix, one can download requirements specified in a file named
 `requirements.txt` with the bash script:
 
 ```bash
-install_packages.sh requirements.txt
+morp.sh requirements.txt
 ```
 
 On all systems, at the MATLAB or Octave command prompt one can do:
@@ -38,7 +38,7 @@ To specify a download location at the terminal, one can need only provide it
 as a second input with
 
 ```bash
-install_packages.sh requirements.txt DOWLOAD_FOLDER
+morp.sh requirements.txt DOWLOAD_FOLDER
 ```
 
 or equivalently

@@ -74,7 +74,7 @@ function check_full(method)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./install_packages.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script with a file input
@@ -139,7 +139,7 @@ function check_forge(method, includeProtocol)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./install_packages.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
@@ -192,7 +192,7 @@ function check_url(method)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./install_packages.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
@@ -241,7 +241,7 @@ function check_fex(method, includeProtocol)
         case 'shell'
             % Run the shell script
             status = system( ...
-                sprintf('./install_packages.sh %s %s -', FNAME, PKG_DIR));
+                sprintf('./morp.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
