@@ -1,6 +1,6 @@
-% Tests for install_packages.m and install_packages.sh, implemented
+% Tests for morp.m and morp.sh, implemented
 % with the MOxUnit framework.
-function test_suite = install_test()
+function test_suite = test_morp()
     % Setup fixtures
     setup();
     % Top level function should call initTestSuite and return the
