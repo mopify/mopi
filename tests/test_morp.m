@@ -17,7 +17,7 @@ function setup()
     fid = fopen('requirements_testing.txt', 'w');
     fprintf(fid, '# Packages for testing installation\n');
     fprintf(fid, 'forge://control\n');
-    fprintf(fid, 'fex://55540-dummy-package\n');
+%    fprintf(fid, 'fex://55540-dummy-package\n');
     fprintf(fid, 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP\n');
     fclose(fid);
 end
@@ -269,10 +269,16 @@ function check_fex(method, includeProtocol)
 end
 
 function test_shellscript_fex()
+    moxunit_throw_test_skipped_exception( ...
+        ['Cant access MathWorks certificate for wget when calling through' ...
+        ' MATLAB or Octave'' system command.']);
     check_fex('shell', true);
 end
 
 function test_shellscript_fex_without_protocol()
+    moxunit_throw_test_skipped_exception( ...
+        ['Cant access MathWorks certificate for wget when calling through' ...
+        ' MATLAB or Octave'' system command.']);
     check_fex('shell', false);
 end
 
