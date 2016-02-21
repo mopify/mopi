@@ -196,9 +196,10 @@ function check_url(method)
     ls -l external_test
     ls -l external_test/peace_essay
     assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
-    % Delete testing file
+    % Delete testing fixtures
     delete(FNAME);
-    rmdir(fileparts(EXPECTED_FILE), 's');
+    rmdir(PKG_DIR, 's');
+    rmdir(CACHE_DIR, 's');
 end
 
 function test_shellscript_url()
@@ -261,9 +262,10 @@ function check_fex(method, includeProtocol)
     ls -l external_test
     ls -l external_test/55540
     assertTrue( find_exist(EXPECTED_FILE, EXPECTED_DIR) ~= 0 );
-    % Delete testing file
+    % Delete testing fixtures
     delete(FNAME);
     rmdir(PKG_DIR, 's');
+    rmdir(CACHE_DIR, 's');
 end
 
 function test_shellscript_fex()
