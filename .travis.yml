@@ -21,7 +21,6 @@ matrix:
     - env: COVERAGE="true"
   fast_finish: true
 
-
 ###############################################################################
 # Command to install dependencies
 before_install:
