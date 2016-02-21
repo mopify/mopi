@@ -148,7 +148,7 @@ function check_forge(method, includeProtocol)
             error('Bad argument');
     end
     % Make sure packages were installed
-    assertFalse(~isempty(pkg('list', PKG_NAME)));
+    assertFalse(isempty(pkg('list', PKG_NAME)));
     % Delete testing file
     delete(FNAME);
 end
