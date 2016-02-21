@@ -311,7 +311,7 @@ function install_url(URL, packages_folder, download_folder)
     end
     % Try to extract from this file - not entirely sure we downloaded a
     % comressed file
-    fprintf('Attempting to extract contents from %s', dl_destination);
+    fprintf('Attempting to extract contents from %s\n', dl_destination);
     status = extract(dl_destination, packagedir);
     if status==0
         fprintf('Sucessfully decompressed file %s\n', dl_destination);
