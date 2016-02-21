@@ -253,7 +253,7 @@ function check_fex(method, includeProtocol)
             rmdir('.cache', 's');
             assertFalse(isempty(which(EXPECTED_FILE)));
             % Remove path
-            rmpath(fileparts(EXPECTED_FILE));
+            rmpath(genpath(PKG_DIR));
         otherwise
             error('Bad argument');
     end
