@@ -46,6 +46,59 @@ function tf = isoctave()
     tf = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 end
 
+%find_exist  Search for a file inside directory and its children
+%   Finds only the first matching file, then stops.
+function [result, pth] = find_exist(file, directory, skip_dirs, maxdepth, ...
+        currentdepth)
+    % Input handling --------------------------------------------------
+    % Default inputs
+    if nargin<3
+        skip_dirs = {};
+    end
+    if nargin<4
+        maxdepth = -1;
+    end
+    if nargin<5
+        currentdepth = 0;
+    end
+    % Declare which directories we don't want to add to the path
+    AVOID_DIRNAMES = {'.'; '..'};
+    AVOID_DIRNAMES = [AVOID_DIRNAMES(:); skip_dirs(:)];
+    % Main ------------------------------------------------------------
+    % Initialise output
+    pth = '';
+    % Check current
+    check_name = fullfile(directory, file);
+    result = exist(check_name, 'file');
+    if result ~= 0
+        pth = check_name;
+        return;
+    end
+    if maxdepth >= 0 && currentdepth >= maxdepth
+        return;
+    end
+    % Generate path based on given root directory
+    contents = dir(directory);
+    if isempty(contents)
+        return;
+    end
+    % Select only directories
+    contents = contents(cat(1, contents.isdir));
+    % Remove directories we want to avoid
+    contents = contents(~ismember({contents.name}, AVOID_DIRNAMES));
+    % Descend into contained directories
+    for i=1:length(contents)
+        % Recursively call this function
+        [result, pth] = find_exist(file, ...
+            fullfile(directory, contents(i).name), skip_dirs, maxdepth, ...
+            currentdepth+1);
+        % If we find a match, we can exit
+        if result ~= 0;
+            return;
+        end
+    end
+end
+
 % ---------------------------------------------------------------------
 % Test Forge package can be installed, by shell or matlab script
 function check_forge(method, includeProtocol)
@@ -164,7 +217,8 @@ function check_fex(method, includeProtocol)
     PKG_DIR = 'external_test';
     CACHE_DIR = '.cache';
     FNAME = 'requirements_testfex.txt';
-    EXPECTED_FILE = fullfile(PKG_DIR, '55540', 'dummy.txt');
+    EXPECTED_FILE = 'dummy.txt';
+    EXPECTED_DIR = fullfile(PKG_DIR, '55540');
     % Setup fixtures
     % Delete old fixtures
     if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
@@ -206,10 +260,10 @@ function check_fex(method, includeProtocol)
     ls -l
     ls -l external_test
     ls -l external_test/55540
-    assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
+    assertTrue( find_exist(EXPECTED_FILE, EXPECTED_DIR) ~= 0 );
     % Delete testing file
     delete(FNAME);
-    rmdir(fileparts(EXPECTED_FILE), 's');
+    rmdir(PKG_DIR, 's');
 end
 
 function test_shellscript_fex()
