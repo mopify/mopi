@@ -508,7 +508,7 @@ function install_single(entry, packages_folder, download_folder)
         disp('... is FileExchange');
         install_fex(entry, packages_folder, download_folder);
 
-    elseif ~isempty(regexp(entry, '^[a-ZA-Z0-9]+(=<>~! |$)', 'once'))
+    elseif ~isempty(regexp(entry, '^[a-zA-Z0-9]+(=<>~! |$)', 'once'))
         disp('... is Octave Forge');
         install_forge(entry);
 
