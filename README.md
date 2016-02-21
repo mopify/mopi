@@ -69,8 +69,6 @@ These are
   - from Octave Forge
   - from generic URL
 
-Both the `.sh` and `.m` methods allow 
-
 
 ### MATLAB FileExchange (FEX)
 
