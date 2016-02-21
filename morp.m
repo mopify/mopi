@@ -1,9 +1,48 @@
-%morp
-%   morp(FNAME)
-%     * forge://
-%     * fex://
-%     * http://, https://, ftp://
-%     * 
+%morp  Install generic package requirements
+%   morp(FNAME) installs the Octave Forge, MATLAB FEX and URL requirements
+%   specified in file FNAME, with each line of the file corresponding to a
+%   different package. Package types are determined based on the protocol
+%   scheme given by the line of the file as follows:
+%     * Line begins 'forge://'
+%           Octave Forge package
+%     * Line begins 'fex://'
+%           MATLAB FileExchange package
+%     * Line begins <other>'://'
+%           Uniform Resource Location (URL)
+%   If no protocol scheme is specified, MORP will attempt to infer the
+%   package type. For more details, consult the documentation for the
+%   subfunction INSTALL_SINGLE, and the README for MORP.
+%   A dialogue box will ask for the location in which to install the
+%   packages.
+%
+%   morp() without any inputs will try to install from a file
+%   'requirements.txt' in the present directory.
+%
+%   morp(PACKAGES) with PACKAGES as a cell array of strings will attempt to
+%   install the package specified in each string within PACKAGES.
+%
+%   morp(PACKAGE) with a single string input not corresponding to an
+%   existing file on the path will attempt to the package given by PACKAGE.
+%
+%   morp(FEXID) with FEXID a numeric integer input (not necessarily of type
+%   int) will install the FileExchange package with id FEXID.
+%
+%   morp(..., PACKAGES_FOLDER) will skip the dialogue box and install the
+%   packages into the directory PACKAGES_FOLDER.
+%
+%   morp(..., PACKAGES_FOLDER, FIXPATH) allows the user to select whether
+%   the packages should be added to the MATLAB/Octave path after
+%   installation. By default, this is true. If FIXPATH evaluates to false,
+%   the path will be left unchanged. PACKAGES_FOLDER can be empty ([] or
+%   '', say) to force the dialogue box to appear. Note that by default, the
+%   path is amended, but it is never saved. If you wish to save the new
+%   path after installing the packages, you should call SAVEPATH.
+%
+%   morp(..., PACKAGES_FOLDER, FIXPATH, DOWNLOAD_FOLDER) allows the user to
+%   specify where the package resources should be downloaded to before they
+%   are decompressed. By default, this is PACKAGES_FOLDER/.cache.
+%
+%   See also INSTALL_SINGLE.
 function morp(input, packages_folder, fixpath, download_folder)
     % Input handling --------------------------------------------------
     if nargin<1 || isempty(input)
@@ -96,8 +135,28 @@ function tf = isoctave()
 end
 
 
-%extract  Extract or decompress a file with unknown compression method
-%   extract(FNAME)
+%extract  Decompress an archive file
+%   extract(FNAME, DIRECTORY) will extract the contents of archive file
+%   named FNAME into the folder DIRECTORY, provided FNAME has an extension
+%   which is one of
+%       * .zip
+%       * .gz
+%       * .tar
+%       * .tar.gz
+%       * .tgz
+%   On Octave, UNPACK is used and the supported extensions additionally
+%   include
+%       * .bz
+%       * .bz2
+%       * .z
+%   If the extension of FNAME is not in this list, an error is thrown.
+%
+%   STATUS = extract(FNAME, DIRECTORY) returns 0 if decompression was
+%   successful and 1 otherwise. This format of the command will not throw
+%   an error if the extension is not appropriate for a decompressable
+%   archive file.
+%
+%   See also UNZIP, GUNZIP, UNTAR, UNPACK.
 function status = extract(fname, output_folder)
     %EXTRACTABLE_EXTS = {'.zip', '.gz', '.tar', '.tgz'};
     % Make sure file exists
@@ -147,7 +206,20 @@ end
 
 
 %genpath_custom  Generate toolbox path, ignoring custom directories
-%   Provides similar functionality to MathWorks' genpath.m, but
+%   Provides similar functionality to MathWorks' genpath.m, but allows the
+%   user to specify certain directory names which should be skipped in
+%   addition to the standard 'private' folders and folders starting with
+%   '@' or '+', which are for overloaded class methods.
+%
+%   PTH = genpath_custom(DIRECTORY), with DIRECTORY as a string naming a
+%   directory to generate paths from, provides the same output as the
+%   builtin GENPATH function.
+%
+%   PTH = genpath_custom(DIRECTORY, SKIP_DIRS) with SKIP_DIRS a cell array
+%   of strings, will skip directories which are exactly equal to one of the
+%   strings in SKIP_DIRS.
+%
+%   See also GENPATH, SAVEPATH.
 function pth = genpath_custom(d, skip_dirs)
     % Default with no additional directories
     if nargin<2
@@ -188,7 +260,19 @@ end
 
 
 %install_forge  Install a package from Octave Forge
-%   install_forge(PACKAGE) installs the package PACKAGE from Forge.
+%   install_forge(PACKAGE) installs the package PACKAGE from Octave Forge
+%   and sets it to load automatically on startup. PACKAGE can be the exact
+%   name of a Forge package, or it can be prepended with 'forge://' as a
+%   protocal scheme. It can optionally be postpended with a version
+%   requirement on the package, which will be ignored and is intended to
+%   provide forward compatibility.
+%
+%   If this command is run in any environment other than Octave, it will
+%   silently do nothing.
+%
+%   Examples:
+%       install_forge('forge://control');
+%       install_forge('control');
 function install_forge(package)
     % If we're not in octave, don't try to install from forge
     if ~isoctave(); return; end
@@ -204,7 +288,28 @@ end
 
 
 %install_fex  Installs a package from the MATLAB FileExchange
-%   
+%   install_fex(PACKAGE, PACKAGES_FOLDER, DOWNLOAD_FOLDER) will download the
+%   package PACKAGE from Matlab FileExchange at
+%   https://www.mathworks.com/matlabcentral/fileexchange/
+%   into a temporary file in DOWNLOAD_FOLDER/PACKAGE.tmp, then unzip the
+%   contents into the folder PACKAGES_FOLDER/PACKAGE/. The input PACKAGE
+%   must be a character string containing the numeric FEX ID of the
+%   package. This can optionally be prepended with the protocol scheme
+%   specifier 'fex://', and can optionally be postpended with the
+%   alphanumeric actual name of the package, provided this is separated
+%   from the package FEX ID number with a hyphen. The name of the
+%   downloaded file and output folder correspond to the FEX ID only and not
+%   any extra content supplied in the string.
+%
+%   If the downloaded file cannot be unzipped, it is moved as is into the
+%   target output directory, PACKAGES_FOLDER/PACKAGE/. Otherwise, the
+%   downloaded archive file is deleted after completion.
+%
+%   Examples:
+%       install_fex('fex://55540-dummy-package', 'external', '.cache')
+%       install_fex('55540', 'fex-packages', '_cache')
+%
+%   See also INSTALL_URL.
 function install_fex(package, packages_folder, download_folder)
     % Strip out 'fex://' protocol identifier, if present at the start
     package = regexprep(package, '^fex://', '');
@@ -257,7 +362,21 @@ end
 
 
 %install_url  Install a package from a URL
-%   Unique resource identifier
+%   install_url(URL, PACKAGES_FOLDER, DOWNLOAD_FOLDER) will download the
+%   a package from the uniform resource location specified by URL into the
+%   directory DOWNLOAD_FOLDER. The package name will be inferred from the
+%   filename component of the URL, and the downloaded file will be
+%   installed into PACKAGES_FOLDER/<package name>/. If the downloaded file
+%   from URL has an extension which indicates an archive, this is
+%   decompressed.
+%
+%   Examples:
+%       install_fex('http://www.mathworks.com/moler/ncm.zip', ...
+%           'external', '.cache')
+%       install_fex('http://www.mathworks.com/moler/ncm.tar.gz', ...
+%           'dependency-packages', '_cache')
+%
+%   See also EXTRACT.
 function install_url(URL, packages_folder, download_folder)
 
     % Trim whitespace
@@ -328,17 +447,32 @@ function install_url(URL, packages_folder, download_folder)
 end
 
 
-% install_single
-% Given a entry of text, detect which type of package is required
-% (forge, fex or url), then install it.
-% Inputs
-%   string
-% Outputs
-%   Echos progress
-% Returns
-%   0 on success
-%   1 on failure to download input
-%   2 on failure to recognise input
+% install_single  Installs a single, generic package
+%   install_single(ENTRY, PACKAGES_FOLDER, DOWNLOAD_FOLDER) installs ENTRY
+%   is it is an Octave Forge package, FEX package or a URL. Empty lines
+%   consisting only of whitespace or a commented out line (starting with a
+%   '#') are ignored. Text following ' #' in the string is designated a
+%   comment and is removed from the input.
+%
+%   The type of package is automatically detected based on the content of
+%   ENTRY as follows:
+%     * ENTRY begins 'forge://'
+%           Octave Forge package
+%     * ENTRY begins 'fex://'
+%           MATLAB FileExchange package
+%     * ENTRY begins <other>'://'
+%           Uniform Resource Location (URL)
+%     * Entirely numeric string
+%           MATLAB FileExchange package
+%     * Entirely numeric string, followed by hyphen
+%           MATLAB FileExchange package
+%     * Other alphanumeric string
+%           Octave Forge package
+%
+%   For URL and FEX packages, inputs PACKAGES_FOLDER and DOWNLOAD_FOLDER
+%   are passed to INSTALL_URL or INSTALL_FEX.
+%
+%   See also INSTALL_FORGE, INSTALL_FEX, INSTALL_URL.
 function install_single(entry, packages_folder, download_folder)
     % Strip out whitespace
     entry = strtrim(entry);
