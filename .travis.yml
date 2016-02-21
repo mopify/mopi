@@ -9,8 +9,6 @@ cache:
   directories:
     # Cache octave packages
     - $HOME/octave
-    # Cache other packages
-    - $HOME/external_cache
 
 ###############################################################################
 env:
