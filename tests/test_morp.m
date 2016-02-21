@@ -18,7 +18,6 @@ function setup()
     fprintf(fid, '# Packages for testing installation\n');
     %fprintf(fid, 'forge://control\n');
     fprintf(fid, 'fex://55540-dummy-package\n');
-    fprintf(fid, 'fex://31069-require-fex-package\n');
     fprintf(fid, 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP\n');
     fclose(fid);
 end
