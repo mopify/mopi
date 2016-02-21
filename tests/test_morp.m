@@ -1,30 +1,10 @@
 % Tests for morp.m and morp.sh, implemented
 % with the MOxUnit framework.
 function test_suite = test_morp()
-    % Setup fixtures
-    setup();
     % Top level function should call initTestSuite and return the
     % variable test_suite (which initTestSuite will put into the
     % workspace for us).
     initTestSuite;
-    % Tear-down fixtures
-    tear_down();
-end
-
-% ---------------------------------------------------------------------
-% Setup fixtures
-function setup()
-    fid = fopen('requirements_testing.txt', 'w');
-    fprintf(fid, '# Packages for testing installation\n');
-    fprintf(fid, 'forge://control\n');
-%    fprintf(fid, 'fex://55540-dummy-package\n');
-    fprintf(fid, 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP\n');
-    fclose(fid);
-end
-
-% Tear-down fixtures
-function tear_down()
-    delete('requirements_testing.txt');
 end
 
 % ---------------------------------------------------------------------
@@ -314,6 +294,13 @@ function check_full(method)
     };
     if strcmp(method, 'matlab-cell')
         EXPECTED_FILES(end+1, :) = {fullfile(PKG_DIR, '55540'), 'dummy.txt'};
+    else
+        fid = fopen('requirements_testing.txt', 'w');
+        fprintf(fid, '# Packages for testing installation\n');
+        fprintf(fid, 'forge://control\n');
+        % fprintf(fid, 'fex://55540-dummy-package\n');
+        fprintf(fid, 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP\n');
+        fclose(fid);
     end
     % Delete old fixtures
     if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
@@ -350,6 +337,10 @@ function check_full(method)
     if isoctave()
         assertFalse(isempty(pkg('list', OCTAVGE_PKG)));
     end
+    % Delete testing fixtures
+    delete(FNAME);
+    rmdir(PKG_DIR, 's');
+    rmdir(CACHE_DIR, 's');
 end
 
 function test_shellscript_full()  %#ok<*DEFNU>
