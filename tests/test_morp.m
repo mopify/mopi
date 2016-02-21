@@ -86,10 +86,10 @@ function check_full(method)
             error('Bad argument');
     end
     % Assert files exist
-    assertTrue(exist(EXPECTED_FILES{1}, 'file'));
-    assertTrue(exist(EXPECTED_FILES{2}, 'file'));
+    assertTrue( exist(EXPECTED_FILES{1}, 'file') ~= 0 );
+    assertTrue( exist(EXPECTED_FILES{2}, 'file') ~= 0 );
     for iFile=3:numel(EXPECTED_FILES)
-        assertTrue(exist(EXPECTED_FILES{iFile}, 'file'));
+        assertTrue( exist(EXPECTED_FILES{iFile}, 'file') ~= 0 );
     end
     if isoctave()
         assertFalse(~isempty(pkg('list', OCTAVGE_PKG)));
@@ -201,7 +201,7 @@ function check_url(method)
             error('Bad argument');
     end
     % Make sure packages were installed
-    assertTrue(exist(EXPECTED_FILE, 'file'));
+    assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
     % Delete testing file
     delete(FNAME);
     rmdir(fileparts(EXPECTED_FILE), 's');
@@ -262,7 +262,7 @@ function check_fex(method, includeProtocol)
             error('Bad argument');
     end
     % Make sure packages were installed
-    assertTrue(exist(EXPECTED_FILE, 'file'));
+    assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
     % Delete testing file
     delete(FNAME);
     rmdir(fileparts(EXPECTED_FILE), 's');
