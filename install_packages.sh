@@ -218,7 +218,7 @@ function install_fex {
     # Got the package name actual
     echo "Installing $PACKAGE from FileExchange";
     # Set the URL to download from
-    BASE='http://www.mathworks.com/matlabcentral/fileexchange/';
+    BASE='https://www.mathworks.com/matlabcentral/fileexchange/';
     QUERY='?download=true';
     URI="$BASE$PACKAGE$QUERY";
 
