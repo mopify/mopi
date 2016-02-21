@@ -78,10 +78,10 @@ function check_full(method)
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script with a file input
-            install_packages(FNAME, PKG_DIR, false, CACHE_DIR);
+            morp(FNAME, PKG_DIR, false, CACHE_DIR);
         case 'matlab-cell'
             % Run the matlab script with a cell input
-            install_packages(PKG_LIST, PKG_DIR, false, CACHE_DIR);
+            morp(PKG_LIST, PKG_DIR, false, CACHE_DIR);
         otherwise
             error('Bad argument');
     end
@@ -143,7 +143,7 @@ function check_forge(method, includeProtocol)
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
-            install_packages(FNAME, PKG_DIR, false);
+            morp(FNAME, PKG_DIR, false);
         otherwise
             error('Bad argument');
     end
@@ -196,7 +196,7 @@ function check_url(method)
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
-            install_packages(FNAME, PKG_DIR, false, CACHE_DIR);
+            morp(FNAME, PKG_DIR, false, CACHE_DIR);
         otherwise
             error('Bad argument');
     end
@@ -245,15 +245,15 @@ function check_fex(method, includeProtocol)
             assertTrue(status==0);
         case 'matlab'
             % Run the matlab script
-            install_packages(FNAME, PKG_DIR, false, '.cache');
+            morp(FNAME, PKG_DIR, false, '.cache');
             rmdir('.cache', 's');
         case 'matlab-int-id'
             % Run the matlab script on an integer input
-            install_packages(55540, PKG_DIR, false, '.cache');
+            morp(55540, PKG_DIR, false, '.cache');
             rmdir('.cache', 's');
         case 'matlab-addpath'
             % Run the matlab script, and add path
-            install_packages(FNAME, PKG_DIR, true, '.cache');
+            morp(FNAME, PKG_DIR, true, '.cache');
             rmdir('.cache', 's');
             assertFalse(isempty(which(EXPECTED_FILE)));
             % Remove path

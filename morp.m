@@ -1,10 +1,10 @@
-%install_packages
-%   install_packages(FNAME)
+%morp
+%   morp(FNAME)
 %     * forge://
 %     * fex://
 %     * http://, https://, ftp://
 %     * 
-function install_packages(input, packages_folder, fixpath, download_folder)
+function morp(input, packages_folder, fixpath, download_folder)
     % Input handling --------------------------------------------------
     if nargin<1 || isempty(input)
         input = fullfile(pwd, 'requirements.txt');

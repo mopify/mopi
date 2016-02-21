@@ -5,8 +5,7 @@ MORP provides a useful way to install dependencies for MATLAB and
 Octave.
 
 There are two methods available to install dependency packages, one is the
-shell script `morp.sh`, and the other is a MATLAB function
-`install_packages.m`.
+shell script `morp.sh`, and the other is a MATLAB function `morp.m`.
 
 These lightweight utilities can be included in any MATLAB/Octave project which
 has non-trivial dependencies either by using a [submodule] of
@@ -27,7 +26,7 @@ morp.sh requirements.txt
 On all systems, at the MATLAB or Octave command prompt one can do:
 
 ```matlab
-install_packages('requirements.txt')
+morp('requirements.txt')
 ```
 
 By default, the shell script will download packages into a folder called
@@ -44,7 +43,7 @@ morp.sh requirements.txt DOWLOAD_FOLDER
 or equivalently
 
 ```matlab
-install_packages('requirements.txt', DOWLOAD_FOLDER)
+morp('requirements.txt', DOWLOAD_FOLDER)
 ```
 
 Each non-Forge package will be downloaded into a folder within DOWLOAD_FOLDER
@@ -54,7 +53,7 @@ The `.m` function for MATLAB and Octave can alternatively be given the name of
 a single package, or cell array of packages instead of a file listing packages.
 
 ```matlab
-install_packages(PACKAGE_NAME)
+morp(PACKAGE_NAME)
 ```
 
 The `.m` function can optionally add the downloaded packages to the path
@@ -195,7 +194,7 @@ the following method can be used:
 
 ```matlab
 if ~exist('dummy.txt', 'file')
-    install_packages('fex://55540');
+    morp('fex://55540');
 end
 ```
 
