@@ -2,7 +2,7 @@
 #
 # install_packages.sh
 # Install MATLAB and Octave packages from Octave Forge, MATLAB
-# FileExchange or explicit URIs.
+# FileExchange or explicit URLs.
 #
 # Inputs
 #   - Path to file containing requirements
@@ -79,7 +79,7 @@ echo "Download folder is: $DOWNLOAD_FOLDER";
 # Get the filename which a server would like us to use when downloading
 # their file.
 # Inputs
-#   Unique Resource Identifier (URI)
+#   Unique Resource Location (URL)
 # Outputs
 #   Filename determined from content disposition given in header
 function curlFileName {
@@ -220,31 +220,31 @@ function install_fex {
     # Set the URL to download from
     BASE='https://www.mathworks.com/matlabcentral/fileexchange/';
     QUERY='?download=true';
-    URI="$BASE$PACKAGE$QUERY";
+    URL="$BASE$PACKAGE$QUERY";
 
     # Let install_uri do all the work for us
-    install_uri $URI;
+    install_uri $URL;
 }
 # -----------------------------------------------------------------------------
 # install_uri
-# Install from an arbitrary URI
+# Install from an arbitrary URL
 # Inputs
-#   Unique Resource Identifier (URI)
+#   Unique Resource Identifier (URL)
 function install_uri {
-    URI="$1";
-    FILENAME=$(curlFileName "$URI");
+    URL="$1";
+    FILENAME=$(curlFileName "$URL");
     FILENAME=${FILENAME%%[[:space:]]*};
     FILENAME=${FILENAME##*[[:space:]]};
     if [ -z "$FILENAME" ];
     then
-        # Couldn't automatically get the filename, so just use the URI
+        # Couldn't automatically get the filename, so just use the URL
         echo "Couldn't get the filename from curl headers"
-        FILENAME=${URI##*/};
+        FILENAME=${URL##*/};
         FILENAME=${FILENAME%%\?*};
     fi;
     PACKAGE=${FILENAME%%.*}
-    echo "Installing package '$PACKAGE' from URI:"
-    echo "  $URI";
+    echo "Installing package '$PACKAGE' from URL:"
+    echo "  $URL";
     echo "  to receive file '$FILENAME'";
 
     # Work out where we will save the file
@@ -253,7 +253,7 @@ function install_uri {
     if [[ ! -e "$DL_DESTINATION" ]];
     then
         echo "Downloading to file '$FILENAME' to $DL_DESTINATION";
-        wget -O "$DL_DESTINATION" "$URI";
+        wget -O "$DL_DESTINATION" "$URL";
         RESULT=$?; if [[ $RESULT -ne 0 ]]; then return $RESULT; fi;
     else
         echo "Using cached copy of file from $DL_DESTINATION";
@@ -321,7 +321,7 @@ function install_single {
         install_fex "$LINE";
 
     elif grep -q "://" <<< "$LINE"; then
-        echo "... is URI";
+        echo "... is URL";
         install_uri "$LINE";
 
     elif grep -qE "^[0-9]+(-|$)" <<< "$LINE"; then
