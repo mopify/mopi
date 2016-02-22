@@ -205,6 +205,24 @@ function status = extract(fname, output_folder)
 end
 
 
+%fix_permissions  Ensure directory permissions are appropriate on *nix
+%   fix_permissions(DIRECTORY) will make sure that all subdirectories
+%   within DIRECTORY are executable by all so they can be navigated, and
+%   all files have read and write access granted to the owner.
+%
+%   STATUS = fix_permissions(DIRECTORY) returns the status of the chmod
+%   command. If the OS is Windows, STATUS is returned as -1 and the command
+%   is not attempted.
+function status = fix_permissions(directory)
+    if ispc;
+        % Can't run this on Windows, but shouldn't need to anyway
+        status = -1;
+        return;
+    end
+    status = system(sprintf('chmod u+rw,a+X -R %s', directory));
+end
+
+
 %genpath_custom  Generate toolbox path, ignoring custom directories
 %   Provides similar functionality to MathWorks' genpath.m, but allows the
 %   user to specify certain directory names which should be skipped in
@@ -354,6 +372,8 @@ function install_fex(package, packages_folder, download_folder)
         % m-file. Just move the file to the package directory.
         copyfile(dl_destination, fullfile(packagedir, [package '.m']));
     end
+    % Make sure the directory has sensible permissions
+    fix_permissions(packagedir);
 
     % Delete the downloaded zip file
     delete(dl_destination);
@@ -439,6 +459,8 @@ function install_url(URL, packages_folder, download_folder)
         % Just move the file to the package directory
         copyfile(dl_destination, fullfile(packagedir, package));
     end
+    % Make sure the directory has sensible permissions
+    fix_permissions(packagedir);
 
     % Delete the downloaded file
     delete(dl_destination);
