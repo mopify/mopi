@@ -74,10 +74,10 @@ before_install:
 
 ###############################################################################
 install:
-  # Move any .m files in the root level into a subfolder so we can test their
-  # coverage without including the tests too
-  - mkdir -p mopi;
-    mv *.m mopi;
+  # Move test into the a folder parallel to the repository, so we can compute
+  # the coverage of the top-level repository folder contents without including
+  # the tests in the coverage report too
+  - mv tests .. && cd .. && ln -s mopi/*.sh .
   # Before running the tests, we will have to add our package and our
   # external dependencies to the octave path
   - PACKAGE_FOLDER="mopi";
