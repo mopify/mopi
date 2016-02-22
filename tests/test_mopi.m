@@ -200,8 +200,6 @@ function test_shellscript_url_with_inline_comment()
 end
 
 function test_shellscript_url_targz()
-    moxunit_throw_test_skipped_exception( ...
-        'Cant process tarball due to file permission problems.');
     check_url('shell', 'tar.gz', true);
 end
 
