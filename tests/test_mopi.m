@@ -84,8 +84,8 @@ end
 function check_forge(method, includeProtocol)
     % Declare constants
     PKG_NAME = 'control';
-    FNAME = 'requirements_testforge.txt';
-    PKG_DIR = 'external_test';
+    PKG_DIR = tempname;
+    FNAME = [tempname '.txt'];
     % Can only test Forge installation on Octave
     if ~isoctave()
         moxunit_throw_test_skipped_exception( ...
@@ -152,9 +152,9 @@ function check_url(method, extension, addInlineComment)
         otherwise
             error('Can''t handle %s extension', extension);
     end
-    PKG_DIR = 'external_test';
-    CACHE_DIR = '.cache';
-    FNAME = 'requirements_testurl.txt';
+    PKG_DIR = tempname;
+    CACHE_DIR = tempname;
+    FNAME = [tempname '.txt'];
     EXPECTED_FILE = 'vandal.m';
     EXPECTED_DIR = fullfile(PKG_DIR, 'ncm');
     % Setup fixtures
@@ -222,9 +222,9 @@ end
 function check_fex(method, includeProtocol)
     % Declare constants
     PKG_NAME = '55540-dummy-package';
-    PKG_DIR = 'external_test';
-    CACHE_DIR = '.cache';
-    FNAME = 'requirements_testfex.txt';
+    PKG_DIR = tempname;
+    CACHE_DIR = tempname;
+    FNAME = [tempname '.txt'];
     EXPECTED_FILE = 'dummy.txt';
     EXPECTED_DIR = fullfile(PKG_DIR, '55540');
     % Setup fixtures
@@ -312,9 +312,9 @@ end
 
 % ---------------------------------------------------------------------
 function check_full(method)
-    PKG_DIR = 'external_test';
-    CACHE_DIR = '.cache';
-    FNAME = 'requirements_testing.txt';
+    PKG_DIR = tempname;
+    CACHE_DIR = tempname;
+    FNAME = [tempname '.txt'];
     OCTAVGE_PKG = 'control';
     PKG_LIST = {
         ['forge://' OCTAVGE_PKG];
