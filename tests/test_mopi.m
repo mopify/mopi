@@ -391,7 +391,7 @@ end
 function check_shellscript_error(entry)
     FNAME = 'requirements_testing.txt';
     fid = fopen(FNAME, 'w');
-    fprintf('%s\n', entry);
+    fprintf(fid, '%s\n', entry);
     fclose(fid);
     status = system(sprintf('./mopi.sh %s', FNAME));
     assertFalse(status==0);
