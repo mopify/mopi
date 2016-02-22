@@ -325,7 +325,7 @@ function check_full(method)
     if strcmp(method, 'matlab-cell')
         EXPECTED_FILES(end+1, :) = {fullfile(PKG_DIR, '55540'), 'dummy.txt'};
     else
-        fid = fopen('requirements_testing.txt', 'w');
+        fid = fopen(FNAME, 'w');
         fprintf(fid, '# Packages for testing installation\n');
         fprintf(fid, 'forge://control\n');
         % fprintf(fid, 'fex://55540-dummy-package\n');
