@@ -330,9 +330,8 @@ function install_fex(package, packages_folder, download_folder)
     [dl_destination, status] = urlwrite(URL, dl_destination);
     % Throw a warning and exit if we couldn't install it
     if status==0
-        warning('MOPI:NoDownload', ...
+        error('MOPI:NoDownload', ...
             'Could not download package %s from\n\t%s', package, URL);
-        return;
     end
     % Unzip the downloaded file
     packagedir = fullfile(packages_folder, package);
@@ -418,9 +417,8 @@ function install_url(URL, packages_folder, download_folder)
     [dl_destination, status] = urlwrite(URL, dl_destination);
     % Throw a warning and exit if we couldn't install it
     if status==0
-        warning('MOPI:NoDownload', ...
+        error('MOPI:NoDownload', ...
             'Could not download package %s from\n\t%s', package, URL);
-        return;
     end
     % Unzip the downloaded file
     packagedir = fullfile(packages_folder, package);
