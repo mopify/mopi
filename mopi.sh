@@ -283,6 +283,8 @@ function install_uri {
         echo "Decompression of $FILENAME appears to have been successful.";
     fi;
     popd > /dev/null;
+    # Ensure directories are descendable and user has read/write permission
+    chmod u+rw,a+X -R "$PACKAGE_FOLDER/$PACKAGE";
 }
 # -----------------------------------------------------------------------------
 # install_single
