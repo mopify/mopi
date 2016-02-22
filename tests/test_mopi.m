@@ -176,9 +176,6 @@ function check_url(method, addInlineComment)
             error('Bad argument');
     end
     % Make sure packages were installed
-    ls -l
-    ls -l external_test
-    ls -l external_test/peace_essay
     assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
     % Delete testing fixtures
     delete(FNAME);
@@ -254,9 +251,6 @@ function check_fex(method, includeProtocol)
             error('Bad argument');
     end
     % Make sure packages were installed
-    ls -l
-    ls -l external_test
-    ls -l external_test/55540
     assertTrue( find_exist(EXPECTED_FILE, EXPECTED_DIR) ~= 0 );
     % Delete testing fixtures
     delete(FNAME);
