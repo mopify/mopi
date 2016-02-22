@@ -362,3 +362,23 @@ end
 function test_mscript_cell()
     check_full('matlab-cell');
 end
+
+% ---------------------------------------------------------------------
+function test_mscript_error_float()
+    assertExceptionThrown(@()mopi(2.5, 'external'), 'MOPI:BadInput');
+end
+
+function test_mscript_error_struct()
+    Shh.package = 'control';
+    assertExceptionThrown(@()mopi(Shh, 'external'), 'MOPI:BadInput');
+end
+
+function test_mscript_error_badurl()
+    package = 'http://example.com/fakefile';
+    assertExceptionThrown(@()mopi(package, 'external'), 'MOPI:NoDownload');
+end
+
+function test_mscript_error_badfex()
+    package = 'fex://0-fake-fex-id';
+    assertExceptionThrown(@()mopi(package, 'external'), 'MOPI:NoDownload');
+end
