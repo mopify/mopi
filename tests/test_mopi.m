@@ -404,6 +404,15 @@ function check_shellscript_error(entry)
     assertTrue(status~=0);
 end
 
+function test_mscript_error_noinput()
+    assertExceptionThrown(@()mopi(), 'MOPI:BadInput');
+end
+
+function test_shellscript_error_noinput()
+    status = system('./mopi.sh');
+    assertTrue(status~=0);
+end
+
 function test_mscript_error_float()
     assertExceptionThrown(@()mopi(2.5, 'external'), 'MOPI:BadInput');
 end
