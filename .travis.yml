@@ -108,8 +108,8 @@ before_script:
   # Set up folders for test results on Shippable
   - if [ "$SHIPPABLE" = "true" ]; then
       rm -fr shippable;
-      mkdir -p shippable/testresults;
-      mkdir -p shippable/codecoverage;
+      mkdir -p "$REPOPATH/shippable/testresults";
+      mkdir -p "$REPOPATH/shippable/codecoverage";
     fi;
 
 ###############################################################################
@@ -124,10 +124,10 @@ after_script:
   # ---------------------------------------------------------------------------
   # Move results and coverage files into appropriate places
   - if [ "$SHIPPABLE" = "true" ] && [ -f testresults.xml ]; then
-      mv testresults.xml shippable/testresults/;
+      mv testresults.xml "$REPOPATH/shippable/testresults/";
     fi;
     if [ "$SHIPPABLE" = "true" ] && [ -f coverage.xml ]; then
-      cp coverage.xml shippable/codecoverage/;
+      cp coverage.xml "$REPOPATH/shippable/codecoverage/";
     fi;
 
 ###############################################################################
