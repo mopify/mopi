@@ -84,6 +84,7 @@ end
 function check_forge(method, includeProtocol)
     % Declare constants
     PKG_NAME = 'control';
+    % Setup fixtures
     PKG_DIR = tempname;
     FNAME = [tempname '.txt'];
     % Can only test Forge installation on Octave
@@ -106,6 +107,7 @@ function check_forge(method, includeProtocol)
     end
     fprintf(fid, [PKG_NAME '\n']);
     fclose(fid);
+    % Run command
     switch method
         case 'shell'
             % Run the shell script
@@ -152,12 +154,12 @@ function check_url(method, extension, addInlineComment)
         otherwise
             error('Can''t handle %s extension', extension);
     end
+    % Setup fixtures
     PKG_DIR = tempname;
     CACHE_DIR = tempname;
     FNAME = [tempname '.txt'];
     EXPECTED_FILE = 'vandal.m';
     EXPECTED_DIR = fullfile(PKG_DIR, 'ncm');
-    % Setup fixtures
     % Delete old fixtures
     if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
     if exist(CACHE_DIR, 'dir'); rmdir(CACHE_DIR, 's'); end
@@ -171,6 +173,7 @@ function check_url(method, extension, addInlineComment)
     end
     fprintf(fid, '\n');
     fclose(fid);
+    % Run command
     switch method
         case 'shell'
             % Run the shell script
@@ -222,12 +225,12 @@ end
 function check_fex(method, includeProtocol)
     % Declare constants
     PKG_NAME = '55540-dummy-package';
+    % Setup fixtures
     PKG_DIR = tempname;
     CACHE_DIR = tempname;
     FNAME = [tempname '.txt'];
     EXPECTED_FILE = 'dummy.txt';
     EXPECTED_DIR = fullfile(PKG_DIR, '55540');
-    % Setup fixtures
     % Delete old fixtures
     if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
     if exist(CACHE_DIR, 'dir'); rmdir(CACHE_DIR, 's'); end
@@ -240,6 +243,7 @@ function check_fex(method, includeProtocol)
     end
     fprintf(fid, [PKG_NAME '\n']);
     fclose(fid);
+    % Run command
     switch method
         case 'shell'
             % Run the shell script
@@ -312,9 +316,11 @@ end
 
 % ---------------------------------------------------------------------
 function check_full(method)
+    % Setup fixtures
     PKG_DIR = tempname;
     CACHE_DIR = tempname;
     FNAME = [tempname '.txt'];
+    % Declare constants
     OCTAVGE_PKG = 'control';
     PKG_LIST = {
         ['forge://' OCTAVGE_PKG];
@@ -342,6 +348,7 @@ function check_full(method)
         fprintf('Removing existing copy of %s\n', OCTAVGE_PKG);
         pkg('uninstall', OCTAVGE_PKG);
     end
+    % Run command
     switch method
         case 'shell'
             % Run the shell script
