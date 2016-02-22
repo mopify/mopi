@@ -142,13 +142,21 @@ end
 
 % ---------------------------------------------------------------------
 % Test package can be installed from generic URL, by shell or matlab script
-function check_url(method, addInlineComment)
+function check_url(method, extension, addInlineComment)
     % Declare constants
-    URL = 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP';
+    switch lower(extension)
+        case 'zip'
+            URL = 'http://www.mathworks.com/moler/ncm.zip';
+        case 'tar.gz'
+            URL = 'http://www.mathworks.com/moler/ncm.tar.gz';
+        otherwise
+            error('Can''t handle %s extension', extension);
+    end
     PKG_DIR = 'external_test';
     CACHE_DIR = '.cache';
     FNAME = 'requirements_testurl.txt';
-    EXPECTED_FILE = fullfile(PKG_DIR, 'peace_essay', 'civility.htm');
+    EXPECTED_FILE = 'vandal.m';
+    EXPECTED_DIR = fullfile(PKG_DIR, 'ncm');
     % Setup fixtures
     % Delete old fixtures
     if exist(PKG_DIR, 'dir'); rmdir(PKG_DIR, 's'); end
@@ -176,7 +184,7 @@ function check_url(method, addInlineComment)
             error('Bad argument');
     end
     % Make sure packages were installed
-    assertTrue( exist(EXPECTED_FILE, 'file') ~= 0 );
+    assertTrue( find_exist(EXPECTED_FILE, EXPECTED_DIR) ~= 0 );
     % Delete testing fixtures
     delete(FNAME);
     rmdir(PKG_DIR, 's');
@@ -184,19 +192,27 @@ function check_url(method, addInlineComment)
 end
 
 function test_shellscript_url()
-    check_url('shell', false);
+    check_url('shell', 'zip', false);
 end
 
 function test_shellscript_url_with_inline_comment()
-    check_url('shell', true);
+    check_url('shell', 'zip', true);
+end
+
+function test_shellscript_url_targz()
+    check_url('shell', 'tar.gz', true);
 end
 
 function test_mscript_url()
-    check_url('matlab', false);
+    check_url('matlab', 'zip', false);
 end
 
 function test_mscript_url_with_inline_comment()
-    check_url('matlab', true);
+    check_url('matlab', 'zip', true);
+end
+
+function test_mscript_url_targz()
+    check_url('matlab', 'tar.gz', true);
 end
 
 % ---------------------------------------------------------------------
