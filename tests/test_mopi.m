@@ -142,7 +142,7 @@ end
 
 % ---------------------------------------------------------------------
 % Test package can be installed from generic URI, by shell or matlab script
-function check_url(method)
+function check_url(method, addInlineComment)
     % Declare constants
     URI = 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP';
     PKG_DIR = 'external_test';
@@ -157,7 +157,11 @@ function check_url(method)
     % Make a file to use for testing
     fid = fopen(FNAME, 'w');
     fprintf(fid, '# URI package installation unit test requirements file\n');
-    fprintf(fid, [URI '\n']);
+    fprintf(fid, URI);
+    if addInlineComment
+        fprintf(fid, ' # inline comment: indeed! #truestory');
+    end
+    fprintf(fid, '\n');
     fclose(fid);
     switch method
         case 'shell'
@@ -183,11 +187,19 @@ function check_url(method)
 end
 
 function test_shellscript_url()
-    check_url('shell');
+    check_url('shell', false);
+end
+
+function test_shellscript_url_with_inline_comment()
+    check_url('shell', true);
 end
 
 function test_mscript_url()
-    check_url('matlab');
+    check_url('matlab', false);
+end
+
+function test_mscript_url_with_inline_comment()
+    check_url('matlab', true);
 end
 
 % ---------------------------------------------------------------------
