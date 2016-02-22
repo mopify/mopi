@@ -141,10 +141,10 @@ function test_mscript_forge_without_protocol()
 end
 
 % ---------------------------------------------------------------------
-% Test package can be installed from generic URI, by shell or matlab script
+% Test package can be installed from generic URL, by shell or matlab script
 function check_url(method, addInlineComment)
     % Declare constants
-    URI = 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP';
+    URL = 'http://www.colorado.edu/conflict/peace/download/peace_essay.ZIP';
     PKG_DIR = 'external_test';
     CACHE_DIR = '.cache';
     FNAME = 'requirements_testurl.txt';
@@ -156,8 +156,8 @@ function check_url(method, addInlineComment)
     if exist(FNAME, 'file'); delete(FNAME); end
     % Make a file to use for testing
     fid = fopen(FNAME, 'w');
-    fprintf(fid, '# URI package installation unit test requirements file\n');
-    fprintf(fid, URI);
+    fprintf(fid, '# URL package installation unit test requirements file\n');
+    fprintf(fid, URL);
     if addInlineComment
         fprintf(fid, ' # inline comment: indeed! #truestory');
     end
