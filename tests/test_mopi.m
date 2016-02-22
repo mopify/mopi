@@ -219,9 +219,13 @@ function check_fex(method, includeProtocol)
             status = system( ...
                 sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
             assertTrue(status==0);
-        case 'matlab'
+        case 'matlab-file'
             % Run the matlab script
             mopi(FNAME, PKG_DIR, false, '.cache');
+            rmdir('.cache', 's');
+        case 'matlab-str'
+            % Run the matlab script
+            mopi(PKG_NAME, PKG_DIR, false, '.cache');
             rmdir('.cache', 's');
         case 'matlab-int-id'
             % Run the matlab script on an integer input
@@ -263,11 +267,15 @@ function test_shellscript_fex_without_protocol()
 end
 
 function test_mscript_fex()
-    check_fex('matlab', true);
+    check_fex('matlab-file', true);
 end
 
 function test_mscript_fex_without_protocol()
-    check_fex('matlab', false);
+    check_fex('matlab-file', false);
+end
+
+function test_mscript_fex_str()
+    check_fex('matlab-str', true);
 end
 
 function test_mscript_fex_int_id()
