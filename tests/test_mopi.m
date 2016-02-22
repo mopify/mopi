@@ -386,8 +386,21 @@ function test_mscript_cell()
 end
 
 % ---------------------------------------------------------------------
+function check_shellscript_error(entry)
+    FNAME = 'requirements_testing.txt';
+    fid = fopen(FNAME, 'w');
+    fprintf('%s\n', entry);
+    fclose(fid);
+    status = system(sprintf('./mopi.sh %s', FNAME));
+    assertFalse(status==0);
+end
+
 function test_mscript_error_float()
     assertExceptionThrown(@()mopi(2.5, 'external'), 'MOPI:BadInput');
+end
+
+function test_shellscript_error_float()
+    check_shellscript_error('2.5');
 end
 
 function test_mscript_error_struct()
@@ -400,12 +413,24 @@ function test_mscript_error_badurl()
     assertExceptionThrown(@()mopi(package, 'external'), 'MOPI:NoDownload');
 end
 
+function test_shellscript_error_badurl()
+    check_shellscript_error('http://example.com/fakefile');
+end
+
 function test_mscript_error_badfex()
     package = 'fex://0-fake-fex-id';
     assertExceptionThrown(@()mopi(package, 'external'), 'MOPI:NoDownload');
 end
 
+function test_shellscript_error_badfex()
+    check_shellscript_error('fex://0-fake-fex-id');
+end
+
 function test_mscript_error_badentry()
     package = 'a1$%@b2';
     assertExceptionThrown(@()mopi(package, 'external'), 'MOPI:BadEntry');
+end
+
+function test_shellscript_error_badentry()
+    check_shellscript_error('a1$%@b2');
 end
