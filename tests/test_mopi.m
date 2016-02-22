@@ -111,7 +111,7 @@ function check_forge(method, includeProtocol)
             % Run the shell script
             status = system( ...
                 sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
-            assertTrue(status==0);
+            assertEqual(0, status);
         case 'matlab'
             % Run the matlab script
             mopi(FNAME, PKG_DIR, false);
@@ -176,7 +176,7 @@ function check_url(method, extension, addInlineComment)
             % Run the shell script
             status = system( ...
                 sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
-            assertTrue(status==0);
+            assertEqual(0, status);
         case 'matlab'
             % Run the matlab script
             mopi(FNAME, PKG_DIR, false, CACHE_DIR);
@@ -245,7 +245,7 @@ function check_fex(method, includeProtocol)
             % Run the shell script
             status = system( ...
                 sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
-            assertTrue(status==0);
+            assertEqual(0, status);
         case 'matlab-file'
             % Run the matlab script
             mopi(FNAME, PKG_DIR, false, '.cache');
@@ -347,7 +347,7 @@ function check_full(method)
             % Run the shell script
             status = system( ...
                 sprintf('./mopi.sh %s %s -', FNAME, PKG_DIR));
-            assertTrue(status==0);
+            assertEqual(0, status);
         case 'matlab'
             % Run the matlab script with a file input
             mopi(FNAME, PKG_DIR, false, CACHE_DIR);
