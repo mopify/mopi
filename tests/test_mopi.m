@@ -404,3 +404,8 @@ function test_mscript_error_badfex()
     package = 'fex://0-fake-fex-id';
     assertExceptionThrown(@()mopi(package, 'external'), 'MOPI:NoDownload');
 end
+
+function test_mscript_error_badentry()
+    package = 'a1$%@b2';
+    assertExceptionThrown(@()mopi(package, 'external'), 'MOPI:BadEntry');
+end
