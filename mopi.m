@@ -512,7 +512,7 @@ function install_single(entry, packages_folder, download_folder)
 
     else
         disp('... means nothing to me.');
-        return;
-
+        error('MOPI:BadEntry', ...
+            'Could not parse a package from "%s"', entry);
     end
 end
