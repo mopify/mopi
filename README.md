@@ -1,3 +1,6 @@
+[![Travis build](https://travis-ci.org/scottclowe/mopi.svg?branch=master)](https://travis-ci.org/scottclowe/mopi)
+[![Shippable build](https://img.shields.io/shippable/56b101e71895ca44747335db/master.svg?label=shippable)](https://app.shippable.com/projects/56b101e71895ca44747335db)
+
 MOPI: MATLAB/Octave Package Installer
 =====================================
 
