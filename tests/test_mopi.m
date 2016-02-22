@@ -394,7 +394,7 @@ function check_shellscript_error(entry)
     fprintf(fid, '%s\n', entry);
     fclose(fid);
     status = system(sprintf('./mopi.sh %s', FNAME));
-    assertFalse(status==0);
+    assertTrue(status~=0);
 end
 
 function test_mscript_error_float()
