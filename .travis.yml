@@ -74,10 +74,14 @@ before_install:
 
 ###############################################################################
 install:
+  # Move any .m files in the root level into a subfolder so we can test their
+  # coverage without including the tests too
+  - mkdir -p mopi;
+    mv *.m mopi;
   # Before running the tests, we will have to add our package and our
   # external dependencies to the octave path
-  - PACKAGE_FOLDER="./";
-    ADDPATH_COMMAND="addpath(genpath(fullfile(pwd)));";
+  - PACKAGE_FOLDER="mopi";
+    ADDPATH_COMMAND="addpath(genpath(fullfile(pwd, '$PACKAGE_FOLDER')));";
     echo "ADDPATH_COMMAND| $ADDPATH_COMMAND";
 
 ###############################################################################
