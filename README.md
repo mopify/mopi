@@ -1,7 +1,7 @@
-[![Travis build](https://travis-ci.org/scottclowe/mopi.svg?branch=master)](https://travis-ci.org/scottclowe/mopi)
+[![Travis build](https://travis-ci.org/mopify/mopi.svg?branch=master)](https://travis-ci.org/mopify/mopi)
 [![Shippable build](https://img.shields.io/shippable/56b101e71895ca44747335db/master.svg?label=shippable)](https://app.shippable.com/projects/56b101e71895ca44747335db)
-[![Coveralls report](https://coveralls.io/repos/scottclowe/mopi/badge.svg?branch=master&service=github)](https://coveralls.io/github/scottclowe/mopi?branch=master)
-[![Codecov report](https://codecov.io/github/scottclowe/mopi/coverage.svg?branch=master)](https://codecov.io/github/scottclowe/mopi?branch=master)
+[![Coveralls report](https://coveralls.io/repos/mopify/mopi/badge.svg?branch=master&service=github)](https://coveralls.io/github/mopify/mopi?branch=master)
+[![Codecov report](https://codecov.io/github/mopify/mopi/coverage.svg?branch=master)](https://codecov.io/github/mopify/mopi?branch=master)
 
 MOPI: MATLAB/Octave Package Installer
 =====================================
