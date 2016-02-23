@@ -129,7 +129,7 @@ function mopi(input, packages_folder, fixpath, download_folder)
     end
     % Add downloaded packages to path
     if fixpath
-        addpath(genpath_custom(packages_folder, {'.cache'; 'tests'}));
+        addpath(genpath_custom(packages_folder, {'.cache'; 'tests'; '.git'}));
     end
 end
 
