@@ -13,9 +13,10 @@ There are two methods available to install dependency packages, one is the
 shell script `mopi.sh`, and the other is a MATLAB function `mopi.m`.
 
 These lightweight utilities can be included in any MATLAB/Octave project which
-has non-trivial dependencies either by using a [submodule] of
+has non-trivial dependencies either by using a [submodule][git submodule] of
 [this repository], or including them as a static copy along with the [LICENSE]
-file, which can potentially be managed and updated using [git subtree].
+file, which can potentially be managed and updated using
+[git subtree][subtree section].
 
 
 Usage
@@ -225,6 +226,46 @@ implementations of MOPI.
     the shell script cannot.
 
 
+Including MOPI in another git repository
+----------------------------------------
+
+To make dependency installation as easy as possible, it is prudent to
+ship a copy of MOPI along with any other toolbox or package you are
+developing which has any dependencies.
+
+To set this up with a git repository, we recommend you use
+[git-subtree].
+This is recommended over [git submodule] because submodule will require
+a deep clone of the repository for all the files to be in place,
+whereas subtree will include a copy of MOPI with your package even if
+it is downloaded as a zip file from the repository remote or FEX.
+
+You can add mopi to your repository with the following command:
+
+```bash
+# Initial commit of MOPI
+git subtree add --squash --prefix mopi \
+    https://github.com/mopify/mopi.git master
+```
+
+And this can be kept up-to-date by merging new commits from the
+MOPI remote into your repository as follows:
+
+```bash
+# Updating MOPI
+git pull
+git subtree pull --squash --prefix mopi \
+    https://github.com/mopify/mopi.git master
+git push
+```
+
+Please note that you will need a clean working tree before attempting
+the subtree command.
+
+Additionally, please note that the commit history cannot be rebased
+easily when it includes squashed changes.
+
+
 Notes
 -----
 
@@ -232,10 +273,12 @@ MOPI was inspired by [requireFEXpackage] and [pip].
 
 
   [this repository]:    https://github.com/scottclowe/mopi
+  [subtree section]:    #including-mopi-in-your-git-repository
   [LICENSE]:            https://github.com/scottclowe/mopi/blob/master/LICENSE
   [forge]:              http://octave.sourceforge.net/
   [fex]:                https://www.mathworks.com/matlabcentral/fileexchange
-  [submodule]:          https://git-scm.com/book/en/v2/Git-Tools-Submodules
-  [git subtree]:        https://medium.com/@porteneuve/mastering-git-subtrees-943d29a798ec
+  [git submodule]:      https://git-scm.com/book/en/v2/Git-Tools-Submodules
+  [git-subtree]:        https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt
+  [git subtree demo]:   https://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/
   [requireFEXpackage]:  https://www.mathworks.com/matlabcentral/fileexchange/31069-require-fex-package
   [pip]:                https://pip.pypa.io/en/stable/reference/pip_install
