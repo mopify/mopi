@@ -30,6 +30,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #==============================================================================
+# License
+#==============================================================================
+
+echo "mopi.sh  Copyright (C) 2016  Scott C. Lowe"
+echo "This program comes with ABSOLUTELY NO WARRANTY; not even for"
+echo "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+echo "This is free software, and you are welcome to redistribute it under"
+echo "the conditions of the GNU General Public License."
+echo ""
+
+#==============================================================================
 # Input handling
 #==============================================================================
 
