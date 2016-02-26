@@ -396,7 +396,7 @@ end
 
 % ---------------------------------------------------------------------
 function check_shellscript_error(entry)
-    FNAME = 'requirements_testing.txt';
+    FNAME = [tempname '.txt'];
     fid = fopen(FNAME, 'w');
     fprintf(fid, '%s\n', entry);
     fclose(fid);
